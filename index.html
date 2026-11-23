@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--
+   F │                         ╱  air spring, positive chamber
+     │                       ╱    F(x) = P·A·(V0 / (V0 − A·x))^γ − Ff
+     │                    ╱       γ = 1.30 (polytropic, all models)
+   W ┼ - - - - - - - - ●          W = m·g·β / LR(sag)
+     │             ╱   ┊          P solved by bisection, 20–500 psi
+     │         ╱       ┊
+     │    ╱            ┊
+     └─────────────────┴───────────── x
+                      sag
+
+┌──────┬─────────────────────────────────────────┐
+│ CERJ │ BIKELAB SAG CALCULATOR        REV 1.0.0 │
+│      │ ORCID 0009-0007-5631-7436     2026      │
+└──────┴─────────────────────────────────────────┘
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BikeLab SAG Calculator — live demo of the verified engine</title>
+<meta name="description" content="Live demo of the BikeLab SAG engine: air-spring pressure for MTB forks and shocks at target sag, with the spring curve drawn and an in-page check against golden vectors.">
+<link rel="canonical" href="https://carlosravello-png.github.io/bikelab-sag-calculator/">
+<style>
+  :root { --bg:#050505; --fg:#d8d8d8; --muted:#8a8a8a; --accent:#4fb8c8; --hi:#e8ff00; --line:#1c1c1c; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.6 Inter, system-ui, sans-serif; }
+  main { max-width:900px; margin:0 auto; padding:40px 20px 60px; }
+  h1 { font:600 1.5rem 'IBM Plex Mono', ui-monospace, monospace; margin:0 0 6px; letter-spacing:.02em; }
+  .sub { color:var(--muted); margin:0 0 22px; }
+  .badge { display:inline-flex; gap:8px; align-items:center; font:12px 'IBM Plex Mono', monospace; border:1px solid var(--accent); color:var(--accent); padding:4px 10px; }
+  .badge.bad { border-color:#ff5b5b; color:#ff5b5b; }
+  .dot { width:7px; height:7px; border-radius:50%; background:currentColor; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin:22px 0; }
+  .card { border:1px solid var(--line); padding:16px; }
+  .card h2 { font:600 .8rem 'IBM Plex Mono', monospace; letter-spacing:.12em; color:var(--muted); margin:0 0 12px; text-transform:uppercase; }
+  label { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:8px 0; font-size:.9rem; }
+  input, select { width:170px; background:#0d0d0d; color:var(--fg); border:1px solid #2a2a2a; padding:4px 8px; font:13px 'IBM Plex Mono', monospace; }
+  .out { display:flex; justify-content:space-between; font-family:'IBM Plex Mono', monospace; margin:6px 0; }
+  .out b { color:var(--hi); font-weight:500; }
+  figure { margin:0; border:1px solid var(--line); background:#070707; }
+  figure svg { display:block; width:100%; height:auto; }
+  figcaption { font:12px 'IBM Plex Mono', monospace; color:var(--muted); padding:8px 12px; border-top:1px solid var(--line); }
+  .note { color:var(--muted); font-size:.85rem; }
+  a { color:var(--accent); }
+  footer { margin-top:36px; border-top:1px solid var(--line); padding-top:16px; color:var(--muted); font-size:.82rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>BikeLab SAG Calculator</h1>
+  <p class="sub">Live demo of the calculation engine, running the same code as the published calculator.</p>
+  <span id="selftest" class="badge"><span class="dot"></span>checking golden vectors…</span>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Input</h2>
+      <label>Suspension <select id="key"></select></label>
+      <label>Stroke / travel (mm) <select id="stroke"></select></label>
+      <label>Rider + gear (kg) <input id="mass" type="number" value="80" min="35" max="160" step="1"></label>
+      <label>Discipline <select id="disc"><option>XC</option><option selected>Trail</option><option>Enduro</option><option>DH</option></select></label>
+      <label>Style <select id="style"><option>Smooth</option><option selected>Neutral</option><option>Aggressive</option></select></label>
+      <label>Tokens installed <input id="tok" type="number" value="0" min="0" max="5" step="1"></label>
+    </section>
+    <section class="card">
+      <h2>Result</h2>
+      <div class="out"><span>Pressure</span><b id="psi">–</b></div>
+      <div class="out"><span>Band for this segment</span><b id="band">–</b></div>
+      <div class="out"><span>Target sag</span><b id="sag">–</b></div>
+      <div class="out"><span>Leverage ratio used</span><b id="lr">–</b></div>
+      <div class="out"><span>Tokens suggested</span><b id="tk">–</b></div>
+      <p class="note" id="segnote"></p>
+    </section>
+  </div>
+
+  <figure>
+    <svg id="plot" viewBox="0 0 860 420" role="img" aria-label="Air-spring force versus travel, with the rider load and the sag point"></svg>
+    <figcaption>FIG. SAG-1 · Spring force F(x) along the stroke at the solved pressure (solid) and at the edges of the band (dashed). The horizontal line is the load W the spring must hold at sag.</figcaption>
+  </figure>
+
+  <p class="note">Model: positive air chamber, single polytropic exponent γ = 1.30, pressure solved by bisection between 20 and 500 psi so that F(sag) = W. The negative chamber is not modelled separately; each model carries a constant force term. Shocks use the frame's leverage curve when one is catalogued (26 frames), a generic curve by linkage type (6), or a default by discipline. See the repository README for what this model does and does not do.</p>
+
+  <footer>
+    Carlos Eduardo Ravello Joo · ORCID <a href="https://orcid.org/0009-0007-5631-7436">0009-0007-5631-7436</a> · BikeLab Studio ·
+    <a href="https://github.com/carlosravello-png/bikelab-sag-calculator">repository</a> ·
+    <a href="https://www.bikelabstudio.com/articles/sag-calculator-en.html">full calculator</a> · CC BY 4.0
+  </footer>
+</main>
+<script src="sag_engine.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const keys = Object.keys(E.C).sort((a, b) => (E.C[a][2] + E.C[a][0] + E.C[a][1]).localeCompare(E.C[b][2] + E.C[b][0] + E.C[b][1]));
+  const og = { fork: document.createElement("optgroup"), shock: document.createElement("optgroup") };
+  og.fork.label = "Forks"; og.shock.label = "Shocks";
+  for (const k of keys) { const o = document.createElement("option"); o.value = k; o.textContent = E.C[k][0] + " " + E.C[k][1]; og[E.C[k][2]].appendChild(o); }
+  $("key").append(og.fork, og.shock);
+  $("key").value = "rs_pike_select";
+
+  function fillStroke() {
+    const s = E.C[$("key").value][4]; $("stroke").innerHTML = "";
+    for (const v of s) { const o = document.createElement("option"); o.value = v; o.textContent = v; $("stroke").appendChild(o); }
+    $("stroke").value = s[Math.floor(s.length / 2)];
+  }
+
+  // Spring force, same equation as the engine (documented in README), for drawing only.
+  function F(x, P, d, V, tc, tok, Ff) {
+    const A = Math.PI * (d / 2000) ** 2, V0 = Math.max(V - tok * (tc || 0), (tc || 1)) * 1e-6;
+    const xm = Math.min(x / 1000, V0 / A * 0.96), Vx = V0 - A * xm;
+    return Vx <= 0 ? NaN : P * 6894.76 * (V0 / Vx) ** 1.30 * A - Ff;
+  }
+
+  function draw(r, inp) {
+    const [d, V, Ff, tc] = E.F[inp.key], st = inp.stroke, W = inp.mass * 9.81 * (r.isShock ? 0.60 : 0.40) / r.lr;
+    const curves = [r.psi, r.pMin, r.pMax].map(P => { const pts = []; for (let i = 0; i <= 90; i++) { const x = st * 0.92 * i / 90; pts.push([x, F(x, P, d, V, tc, inp.tokens, Ff)]); } return pts; });
+    const fmax = Math.max(...curves.flat().map(p => p[1]).filter(Number.isFinite)) * 1.08;
+    const L = 64, R = 836, T = 24, B = 370, sx = x => L + (R - L) * x / (st * 0.92), sy = f => B - (B - T) * f / fmax;
+    const path = pts => pts.filter(p => Number.isFinite(p[1])).map((p, i) => (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(Math.max(p[1], 0)).toFixed(1)).join(" ");
+    let g = "";
+    for (let i = 0; i <= 5; i++) { const y = T + (B - T) * i / 5; g += `<line x1="${L}" x2="${R}" y1="${y}" y2="${y}" stroke="#141414"/>`; const f = fmax * (1 - i / 5); g += `<text x="${L - 8}" y="${y + 4}" text-anchor="end" fill="#6a6a6a" font-size="11" font-family="IBM Plex Mono,monospace">${Math.round(f)}</text>`; }
+    for (let i = 0; i <= 4; i++) { const x = L + (R - L) * i / 4, v = st * 0.92 * i / 4; g += `<line x1="${x}" x2="${x}" y1="${T}" y2="${B}" stroke="#141414"/><text x="${x}" y="${B + 18}" text-anchor="middle" fill="#6a6a6a" font-size="11" font-family="IBM Plex Mono,monospace">${v.toFixed(0)}</text>`; }
+    const xs = sx(r.xMm), yw = sy(W);
+    g += `<path d="${path(curves[1])}" fill="none" stroke="#4fb8c8" stroke-dasharray="5 5" stroke-width="1.2" opacity=".7"/>`;
+    g += `<path d="${path(curves[2])}" fill="none" stroke="#4fb8c8" stroke-dasharray="5 5" stroke-width="1.2" opacity=".7"/>`;
+    g += `<path d="${path(curves[0])}" fill="none" stroke="#4fb8c8" stroke-width="2.2"/>`;
+    g += `<line x1="${L}" x2="${R}" y1="${yw}" y2="${yw}" stroke="#e8ff00" stroke-width="1" stroke-dasharray="2 4"/>`;
+    g += `<line x1="${xs}" x2="${xs}" y1="${yw}" y2="${B}" stroke="#e8ff00" stroke-width="1" stroke-dasharray="2 4"/>`;
+    g += `<circle cx="${xs}" cy="${yw}" r="5" fill="#e8ff00"/>`;
+    g += `<text x="${xs + 10}" y="${yw - 10}" fill="#e8ff00" font-size="12" font-family="IBM Plex Mono,monospace">SAG ${r.sag}% · ${r.xMm} mm · W ${Math.round(W)} N</text>`;
+    g += `<text x="${L}" y="${T - 8}" fill="#8a8a8a" font-size="11" font-family="IBM Plex Mono,monospace">F (N)</text>`;
+    g += `<text x="${R}" y="${B + 36}" text-anchor="end" fill="#8a8a8a" font-size="11" font-family="IBM Plex Mono,monospace">x (mm, ${r.isShock ? "shock stroke" : "fork travel"})</text>`;
+    g += `<g font-family="IBM Plex Mono,monospace" font-size="10"><rect x="${R - 214}" y="${T + 6}" width="208" height="38" fill="#050505" stroke="#4fb8c8" stroke-width=".8"/><line x1="${R - 172}" x2="${R - 172}" y1="${T + 6}" y2="${T + 44}" stroke="#4fb8c8" stroke-width=".8"/><text x="${R - 206}" y="${T + 30}" fill="#e8ff00" font-size="12">CERJ</text><text x="${R - 164}" y="${T + 21}" fill="#d8d8d8">BIKELAB SAG · REV 1.0.0</text><text x="${R - 164}" y="${T + 36}" fill="#8a8a8a">ORCID 0009-0007-5631-7436</text></g>`;
+    $("plot").innerHTML = g;
+  }
+
+  function run() {
+    const inp = { key: $("key").value, stroke: +$("stroke").value, mass: +$("mass").value, disc: $("disc").value,
+                  style: $("style").value, terrain: "mixed", tokens: Math.max(0, Math.min(5, +$("tok").value || 0)) };
+    const r = E.calc(inp);
+    $("psi").textContent = `${r.psi} psi · ${r.bar} bar`;
+    $("band").textContent = `${r.pMin}–${r.pMax} psi`;
+    $("sag").textContent = `${r.sag}% · ${r.xMm} mm` + (r.isShock && r.lr > 1 ? ` (wheel ${r.wPct}%)` : "");
+    $("lr").textContent = r.lr;
+    $("tk").textContent = r.tokens;
+    $("segnote").textContent = `Segment "${r.seg}": the band is a fixed ±${({entry:15,mid:10,mid_high:7,high:5})[r.seg]}% of the solved pressure, not a measured confidence.`;
+    draw(r, inp);
+  }
+
+  fillStroke();
+  $("key").addEventListener("change", () => { fillStroke(); run(); });
+  for (const id of ["stroke", "mass", "disc", "style", "tok"]) $(id).addEventListener("input", run);
+  run();
+
+  fetch("golden_vectors.json").then(r => r.json()).then(gv => {
+    const bad = gv.vectors.filter(v => { const r = E.calc(v.input); return r.psi !== v.expected.psi || r.sag !== v.expected.sag_pct || r.lr !== v.expected.lr; });
+    const b = $("selftest");
+    if (bad.length) { b.classList.add("bad"); b.lastChild.textContent = `${bad.length} golden vectors differ`; }
+    else b.lastChild.textContent = `engine matches ${gv.vectors.length}/${gv.vectors.length} golden vectors`;
+  }).catch(() => { $("selftest").lastChild.textContent = "golden vectors not loaded (open through a web server)"; });
+})();
+</script>
+</body>
+</html>

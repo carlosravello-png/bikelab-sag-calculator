@@ -1,0 +1,55 @@
+{
+  "upload_type": "software",
+  "title": "BikeLab SAG Calculator: Air-Spring Pressure for MTB Suspension at Target Sag — Engine, Golden Vectors and Verifiers",
+  "version": "1.0.0",
+  "creators": [
+    {
+      "name": "Ravello Joo, Carlos Eduardo",
+      "orcid": "0009-0007-5631-7436",
+      "affiliation": "BikeLab Studio"
+    }
+  ],
+  "description": "<p>Calculation engine of the BikeLab SAG Calculator (bikelabstudio.com, in Spanish, English and Portuguese; internal watermark SAG_MODEL_v5.0 dated 2026-02-26), copied byte for byte from the live page, with 13 golden vectors and two verifiers: an independent Python verifier written from the documented model, and a Node.js check that runs the real engine against the vectors and against the model on 5,304 inputs.</p><p>The engine computes the air pressure of MTB forks and rear shocks at a target sag: positive air chamber with a single polytropic exponent (γ = 1.30), constant force term per model, pressure solved by bisection, leverage from 26 catalogued frames, 6 generic linkage curves or a default by discipline, over a database of 132 suspensions from 16 brands. The rider is shown a fixed band of ±5 to ±15 % by segment.</p><p>The README lists where white paper v3.0 (February 2026) describes more than the engine does: per-model γ, an independent negative chamber, Monte Carlo validation and a confidence of 72–89 % by segment are not part of the published engine.</p>",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "mountain bike",
+    "suspension",
+    "air spring",
+    "sag",
+    "polytropic",
+    "fork",
+    "rear shock",
+    "verification",
+    "golden vectors"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.20672790",
+      "relation": "isNewVersionOf",
+      "resource_type": "software",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.20735088",
+      "relation": "references",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://www.bikelabstudio.com/articles/sag-calculator-en.html",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://www.bikelabstudio.com/articles/sag-calculator-es.html",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://www.bikelabstudio.com/articles/white-paper-sag-model.html",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-technicalnote"
+    }
+  ],
+  "language": "eng"
+}

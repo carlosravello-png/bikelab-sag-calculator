@@ -1,0 +1,441 @@
+{
+ "description": "Outputs of the live BikeLab SAG engine (sag_engine.js, byte-for-byte copy) for fixed inputs. Generated 2026-11-23. psi is rounded by the engine to 0.1.",
+ "engine_sha256": "62f7cb94f9395fc0f274db2a431585201427b5b22a9a5e1cc82fc7d3ab15dd86",
+ "tolerance_psi": 0.1,
+ "vectors": [
+  {
+   "input": {
+    "key": "rs_pike_select",
+    "mass": 80,
+    "disc": "Trail",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 140,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "Pike Select DebonAir+",
+    "type": "fork",
+    "segment": "mid_high",
+    "piston_d_mm": 24.1,
+    "volume_cc": 182,
+    "Ff_N": 9,
+    "token_cc": 8.8
+   },
+   "expected": {
+    "psi": 92.7,
+    "pMin": 86.2,
+    "pMax": 99.2,
+    "sag_pct": 21.5,
+    "x_mm": 30.1,
+    "tokens": 0,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "rs_pike_select",
+    "mass": 60,
+    "disc": "Trail",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 140,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "Pike Select DebonAir+",
+    "type": "fork",
+    "segment": "mid_high",
+    "piston_d_mm": 24.1,
+    "volume_cc": 182,
+    "Ff_N": 9,
+    "token_cc": 8.8
+   },
+   "expected": {
+    "psi": 70.2,
+    "pMin": 65.3,
+    "pMax": 75.1,
+    "sag_pct": 21.5,
+    "x_mm": 30.1,
+    "tokens": 0,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "rs_pike_select",
+    "mass": 100,
+    "disc": "Enduro",
+    "style": "Aggressive",
+    "terrain": "rough",
+    "stroke": 150,
+    "tokens": 1
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "Pike Select DebonAir+",
+    "type": "fork",
+    "segment": "mid_high",
+    "piston_d_mm": 24.1,
+    "volume_cc": 182,
+    "Ff_N": 9,
+    "token_cc": 8.8
+   },
+   "expected": {
+    "psi": 111.7,
+    "pMin": 103.8,
+    "pMax": 119.5,
+    "sag_pct": 24.7,
+    "x_mm": 37.1,
+    "tokens": 1,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "suntour_xcr_32",
+    "mass": 75,
+    "disc": "XC",
+    "style": "Smooth",
+    "terrain": "flow",
+    "stroke": 100,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "SR Suntour",
+    "name": "XCR 32mm Air",
+    "type": "fork",
+    "segment": "entry",
+    "piston_d_mm": 22.8,
+    "volume_cc": 142,
+    "Ff_N": 13,
+    "token_cc": 0
+   },
+   "expected": {
+    "psi": 102.2,
+    "pMin": 86.8,
+    "pMax": 117.5,
+    "sag_pct": 17.3,
+    "x_mm": 17.3,
+    "tokens": 0,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "suntour_durolux_36",
+    "mass": 85,
+    "disc": "Enduro",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 160,
+    "tokens": 2
+   },
+   "model": {
+    "brand": "SR Suntour",
+    "name": "Durolux 36 EQ Air",
+    "type": "fork",
+    "segment": "mid",
+    "piston_d_mm": 25.8,
+    "volume_cc": 210,
+    "Ff_N": 10,
+    "token_cc": 0
+   },
+   "expected": {
+    "psi": 83.4,
+    "pMin": 75.1,
+    "pMax": 91.7,
+    "sag_pct": 24.5,
+    "x_mm": 39.2,
+    "tokens": 2,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "rs_monarch_rt3",
+    "mass": 80,
+    "disc": "Trail",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 57,
+    "tokens": 0,
+    "frameKey": "trek_fuel_ex"
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "Monarch RT3 DebonAir(legacy)",
+    "type": "shock",
+    "segment": "mid",
+    "piston_d_mm": 12.5,
+    "volume_cc": 18,
+    "Ff_N": 5,
+    "token_cc": 1.2,
+    "leverage_curve": [
+     [
+      0,
+      2.8
+     ],
+     [
+      28,
+      2.55
+     ],
+     [
+      60,
+      2.35
+     ],
+     [
+      95,
+      2.15
+     ]
+    ],
+    "leverage_source": "frame trek_fuel_ex"
+   },
+   "expected": {
+    "psi": 192.3,
+    "pMin": 173.1,
+    "pMax": 211.6,
+    "sag_pct": 29,
+    "x_mm": 16.5,
+    "tokens": 0,
+    "lr": 2.544
+   }
+  },
+  {
+   "input": {
+    "key": "rs_kage_rc",
+    "mass": 90,
+    "disc": "Enduro",
+    "style": "Neutral",
+    "terrain": "rough",
+    "stroke": 60,
+    "tokens": 0,
+    "linkType": "horst"
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "Kage RC DebonAir+",
+    "type": "shock",
+    "segment": "mid_high",
+    "piston_d_mm": 14,
+    "volume_cc": 22,
+    "Ff_N": 4,
+    "token_cc": 1.5,
+    "leverage_curve": [
+     [
+      0,
+      3
+     ],
+     [
+      30,
+      2.65
+     ],
+     [
+      60,
+      2.45
+     ],
+     [
+      95,
+      2.3
+     ]
+    ],
+    "leverage_source": "generic horst"
+   },
+   "expected": {
+    "psi": 160.4,
+    "pMin": 149.1,
+    "pMax": 171.6,
+    "sag_pct": 31.5,
+    "x_mm": 18.9,
+    "tokens": 0,
+    "lr": 2.64
+   }
+  },
+  {
+   "input": {
+    "key": "rs_monarch_plus",
+    "mass": 70,
+    "disc": "Trail",
+    "style": "Smooth",
+    "terrain": "flow",
+    "stroke": 55,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "Monarch Plus RC3 DebonAir(legacy)",
+    "type": "shock",
+    "segment": "mid",
+    "piston_d_mm": 12.8,
+    "volume_cc": 19.5,
+    "Ff_N": 5,
+    "token_cc": 1.2,
+    "leverage_curve": null,
+    "leverage_source": "default by discipline"
+   },
+   "expected": {
+    "psi": 165.8,
+    "pMin": 149.3,
+    "pMax": 182.4,
+    "sag_pct": 28.8,
+    "x_mm": 15.8,
+    "tokens": 0,
+    "lr": 2.5
+   }
+  },
+  {
+   "input": {
+    "key": "suntour_ncx",
+    "mass": 78,
+    "disc": "Trail",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 63,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "SR Suntour",
+    "name": "NCX Air",
+    "type": "fork",
+    "segment": "entry",
+    "piston_d_mm": 20.5,
+    "volume_cc": 92,
+    "Ff_N": 18,
+    "token_cc": 0
+   },
+   "expected": {
+    "psi": 133.5,
+    "pMin": 113.5,
+    "pMax": 153.5,
+    "sag_pct": 21.5,
+    "x_mm": 13.5,
+    "tokens": 0,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "suntour_raidon_34",
+    "mass": 78,
+    "disc": "Trail",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 130,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "SR Suntour",
+    "name": "Raidon 34mm Air",
+    "type": "fork",
+    "segment": "mid",
+    "piston_d_mm": 23.8,
+    "volume_cc": 162.5,
+    "Ff_N": 11,
+    "token_cc": 0
+   },
+   "expected": {
+    "psi": 93.2,
+    "pMin": 83.9,
+    "pMax": 102.5,
+    "sag_pct": 21.5,
+    "x_mm": 28,
+    "tokens": 0,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "rs_sid_sl_select",
+    "mass": 78,
+    "disc": "XC",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 110,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "SID SL Select 32mm DebonAir",
+    "type": "fork",
+    "segment": "mid_high",
+    "piston_d_mm": 23.2,
+    "volume_cc": 148,
+    "Ff_N": 9,
+    "token_cc": 7
+   },
+   "expected": {
+    "psi": 100.4,
+    "pMin": 93.4,
+    "pMax": 107.5,
+    "sag_pct": 17.5,
+    "x_mm": 19.3,
+    "tokens": 0,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "rs_sid_sl_ultimate",
+    "mass": 78,
+    "disc": "XC",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 110,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "SID SL Ultimate 32mm DebonAir+",
+    "type": "fork",
+    "segment": "high",
+    "piston_d_mm": 23.8,
+    "volume_cc": 153,
+    "Ff_N": 5,
+    "token_cc": 7
+   },
+   "expected": {
+    "psi": 94.1,
+    "pMin": 89.4,
+    "pMax": 98.8,
+    "sag_pct": 17.5,
+    "x_mm": 19.3,
+    "tokens": 0,
+    "lr": 1
+   }
+  },
+  {
+   "input": {
+    "key": "rs_deluxe_ultimate",
+    "mass": 78,
+    "disc": "Trail",
+    "style": "Neutral",
+    "terrain": "mixed",
+    "stroke": 47.5,
+    "tokens": 0
+   },
+   "model": {
+    "brand": "RockShox",
+    "name": "Deluxe Ultimate DebonAir+",
+    "type": "shock",
+    "segment": "high",
+    "piston_d_mm": 13.5,
+    "volume_cc": 21.8,
+    "Ff_N": 2.5,
+    "token_cc": 1.5,
+    "leverage_curve": null,
+    "leverage_source": "default by discipline"
+   },
+   "expected": {
+    "psi": 166.7,
+    "pMin": 158.4,
+    "pMax": 175.1,
+    "sag_pct": 29,
+    "x_mm": 13.8,
+    "tokens": 0,
+    "lr": 2.5
+   }
+  }
+ ]
+}
