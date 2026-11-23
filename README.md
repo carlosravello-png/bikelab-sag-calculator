@@ -4,6 +4,7 @@ Designed and maintained by **Carlos Eduardo Ravello Joo** · ORCID [0009-0007-56
 
 [![verify](https://github.com/carlosravello-png/bikelab-sag-calculator/actions/workflows/verify.yml/badge.svg)](https://github.com/carlosravello-png/bikelab-sag-calculator/actions/workflows/verify.yml)
 [![License: CC BY 4.0](https://img.shields.io/badge/license-CC%20BY%204.0-4fb8c8)](LICENSE.txt)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24484750.svg)](https://doi.org/10.5281/zenodo.24484750)
 
 Air-spring pressure for MTB forks and rear shocks at a target sag. This repository holds
 the calculation engine, copied byte for byte from the live calculator, its golden vectors
@@ -72,4 +73,8 @@ repository documents the engine as it is:
 
 Engine, vectors and verifiers: [CC BY 4.0](LICENSE.txt). Cite with the metadata in
 [`CITATION.cff`](CITATION.cff); each release is archived on Zenodo with its own DOI.
+
+> Ravello Joo, C. E. (2026). *BikeLab SAG Calculator* (Version 1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.24484751
+
+All versions: DOI [10.5281/zenodo.24484750](https://doi.org/10.5281/zenodo.24484750).
 Previous archived version (June 2026): DOI [10.5281/zenodo.20672790](https://doi.org/10.5281/zenodo.20672790).
